@@ -7,9 +7,9 @@ CORS(app)
 api = Api(app)
 
 TODOS = {
-    'todo1': {'task': 'build an API', 'taskDescription': 'bla', 'status': 'false'},
-    'todo2': {'task': 'build an', 'taskDescription': 'bla2', 'status': 'false'},
-    'todo3': {'task': 'build', 'taskDescription': 'bla3', 'status': 'false'},
+    'task1': {'task': 'build an API', 'taskDescription': 'bla', 'status': 'false'},
+    'task2': {'task': 'build an', 'taskDescription': 'bla2', 'status': 'false'},
+    'task3': {'task': 'build', 'taskDescription': 'bla3', 'status': 'false'},
 }
 
 
@@ -19,6 +19,8 @@ def abort_if_todo_doesnt_exist(todo_id):
 
 parser = reqparse.RequestParser()
 parser.add_argument('task')
+parser.add_argument('taskDescription')
+parser.add_argument('status')
 
 
 # Todo
@@ -35,7 +37,15 @@ class Todo(Resource):
 
     def put(self, todo_id):
         args = parser.parse_args()
-        task = {'task': args['task']}
+        task = {'task': args['task'], 'taskDescription': args['taskDescription'], 'status': args['status']}
+        TODOS[todo_id] = task
+        return task, 201
+
+    def post(self, todo_id):
+        args = parser.parse_args()
+        #todo_id = int(max(TODOS.keys()).lstrip('todo')) + 1
+        #todo_id = 'todo%i' % todo_id
+        task = {'task': args['task'], 'taskDescription': args['taskDescription'], 'status': args['status']}
         TODOS[todo_id] = task
         return task, 201
 
@@ -45,9 +55,6 @@ class Todo(Resource):
 class TodoList(Resource):
     def get(self):
         return TODOS
-
-    def post(self):
-        pass
 
 ##
 ## Actually setup the Api resource routing here

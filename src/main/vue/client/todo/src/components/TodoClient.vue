@@ -1,16 +1,20 @@
 <template>
-  <div class="hello">
+  <div>
     <h1>Todo App</h1>
-    <h3> Todos: </h3>
-    <ol>
-      <li v-for="todo in todos">
-        {{ todo.task }}
-        {{ todo.taskDescribtion }}
-        {{ todo.status }}
-      </li>
-    </ol>
+    <input type="text" placeholder="Task" id="taskInput" v-model="task">
+    <input type="text" placeholder="Task Description" id="taskDescrInput" v-model="taskDescription">
+    <input type="text" placeholder="Status" id="statusInput" v-model="status">
+
+    <div style="border-bottom: solid" v-for="todo in todos">
+      Task:             {{ todo.task }} <br>
+      TaskDescription:  {{ todo.taskDescription }} <br>
+      Status:           {{ todo.status }}
+    </div>
 
     <button v-on:click="getTodos">Get Todos</button>
+    <button v-on:click="createTodo">Create Todos</button>
+    <button v-on:click="deleteTodo">Delete Todos</button>
+    <button v-on:click="updateTodo">Update Todos</button>
   </div>
 </template>
 
@@ -23,21 +27,56 @@ export default {
       todos: {},
       input: {
         task:"",
-        taskDescribtion:"",
-        status:'false'
+        taskDescription:"",
+        status:''
       }
-  }
+    }
   },
   methods: {
     getTodos: function () {
       axios.get('http://localhost:5000/todos').then((response) => {
-        this.todos = response.data;
-
         console.log(response);
+
+        this.todos = response.data;
       }).catch((error) => {
         console.log(error);
       });
-    }
+    },
+    createTodo: function () {
+      axios.post('http://localhost:5000/todos/' + this.task, {
+
+        task: this.task,
+        taskDescription: this.taskDescription,
+        status: this.status
+      }).then(response => {
+        console.log(response);
+
+        this.getTodos();
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+    deleteTodo: function () {
+      axios.delete('http://localhost:5000/todos/' + this.task)
+        .then(response => {
+          this.getTodos()
+      })
+    },
+    updateTodo: function () {
+      axios.put('http://localhost:5000/todos/' + this.task, {
+
+        task: this.task,
+        taskDescription: this.taskDescription,
+        status: this.status
+      }).then(response => {
+        this.getTodos()
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+  },
+  created(){
+    this.getTodos()
   }
 }
 </script>
