@@ -1,0 +1,7 @@
+pytest
+pytest-cov
+pytest-html
+pytest-flask
+flask
+flask-restful
+flask_cors
