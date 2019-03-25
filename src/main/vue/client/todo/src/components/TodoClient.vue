@@ -4,17 +4,18 @@
     <input type="text" placeholder="Task" id="taskInput" v-model="task">
     <input type="text" placeholder="Task Description" id="taskDescrInput" v-model="taskDescription">
     <input type="text" placeholder="Status" id="statusInput" v-model="status">
-
+    <br>
+    <br>
+    <button v-on:click="getTodos">Get Todos</button>
+    <button v-on:click="createTodo">Create Todos</button>
+    <button v-on:click="deleteTodo">Delete Todos</button>
+    <button v-on:click="updateTodo">Update Todos</button>
+    <br><br><br><br>
     <div style="border-bottom: solid" v-for="todo in todos">
       Task:             {{ todo.task }} <br>
       TaskDescription:  {{ todo.taskDescription }} <br>
       Status:           {{ todo.status }}
     </div>
-
-    <button v-on:click="getTodos">Get Todos</button>
-    <button v-on:click="createTodo">Create Todos</button>
-    <button v-on:click="deleteTodo">Delete Todos</button>
-    <button v-on:click="updateTodo">Update Todos</button>
   </div>
 </template>
 
