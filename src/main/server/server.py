@@ -7,9 +7,9 @@ CORS(app)
 api = Api(app)
 
 TODOS = {
-    'todo1': {'task': 'build an API', 'taskDescribtion': 'bla', 'status': 'false'},
-    'todo2': {'task': 'build an', 'taskDescribtion': 'bla2', 'status': 'false'},
-    'todo3': {'task': 'build', 'taskDescribtion': 'bla3', 'status': 'false'},
+    'todo1': {'task': 'build an API', 'taskDescription': 'bla', 'status': 'false'},
+    'todo2': {'task': 'build an', 'taskDescription': 'bla2', 'status': 'false'},
+    'todo3': {'task': 'build', 'taskDescription': 'bla3', 'status': 'false'},
 }
 
 
@@ -47,11 +47,7 @@ class TodoList(Resource):
         return TODOS
 
     def post(self):
-        args = parser.parse_args()
-        todo_id = int(max(TODOS.keys()).lstrip('todo')) + 1
-        todo_id = 'todo%i' % todo_id
-        TODOS[todo_id] = {'task': args['task']}
-        return TODOS[todo_id], 201
+        pass
 
 ##
 ## Actually setup the Api resource routing here
